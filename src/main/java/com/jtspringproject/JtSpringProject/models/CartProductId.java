@@ -13,11 +13,11 @@ public class CartProductId implements Serializable {
     private Integer cartId;
 
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
 	
     public CartProductId() {}
 
-    public CartProductId(Integer cartId, Integer productId) {
+    public CartProductId(Integer cartId, Long productId) {
         this.cartId = cartId;
         this.productId = productId;
     }
@@ -30,11 +30,11 @@ public class CartProductId implements Serializable {
         this.cartId = cartId;
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 

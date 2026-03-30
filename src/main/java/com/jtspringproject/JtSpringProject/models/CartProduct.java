@@ -1,5 +1,6 @@
 package com.jtspringproject.JtSpringProject.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -24,35 +25,35 @@ public class CartProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    // --- 100x NEW FIELD ---
+    @Column(name = "quantity")
+    private int quantity = 1; // Default to 1 when a product is first added
+
     public CartProduct() {}
 
     public CartProduct(Cart cart, Product product) {
         this.cart = cart;
         this.product = product;
-        this.id = new CartProductId(cart.getId(), product.getId());
+        // Ensure quantity is 1 on creation
+        this.quantity = 1;
+        // Handle the composite key mapping
+        this.id = new CartProductId(cart.getId(), (Long) product.getId());
     }
 
-    public CartProductId getId() {
-        return id;
+    // --- GETTERS & SETTERS FOR QUANTITY ---
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setId(CartProductId id) {
-        this.id = id;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    // Standard Getters & Setters
+    public CartProductId getId() { return id; }
+    public void setId(CartProductId id) { this.id = id; }
+    public Cart getCart() { return cart; }
+    public void setCart(Cart cart) { this.cart = cart; }
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
 }

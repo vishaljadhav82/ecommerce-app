@@ -41,11 +41,16 @@ public class userService {
                 .orElse(null);
     }
 
-    public boolean checkUserExists(String username) {
-        return userRepository.existsByUsername(username);
+    public boolean checkUserExists(String email) {
+        return userRepository.existsByEmail(email);
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+    public User getUserByEmail(String username) {
+        return userRepository.findByEmail(username).orElse(null);
     }
+
+	public User getUserById(Long id) {
+		// TODO Auto-generated method stub
+        return userRepository.findById(id).orElse(null);
+	}
 }

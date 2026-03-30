@@ -1,185 +1,169 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!doctype html>
-<%@page import="java.sql.*"%>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-	crossorigin="anonymous">
-<title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management | Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-orange: #FF6F00;
+            --brand-gradient: linear-gradient(135deg, #FF6F00 0%, #FF9100 100%);
+            --royal-dark: #0F172A;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #F8FAFC; 
+            color: var(--royal-dark);
+        }
+
+        /* --- MODERN NAVBAR --- */
+        .navbar { background: white !important; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-bottom: 2px solid var(--brand-orange); }
+        .navbar-brand { font-weight: 800; color: var(--royal-dark) !important; }
+        .navbar-brand span { color: var(--brand-orange); }
+
+        /* --- PAGE HEADER --- */
+        .page-header { background: var(--royal-dark); padding: 40px 0; color: white; border-radius: 0 0 30px 30px; margin-bottom: 30px; }
+
+        /* --- TABLE DESIGN --- */
+        .data-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); background: white; overflow: hidden; }
+        .table { margin-bottom: 0; }
+        .table thead th { background: #F1F5F9; border: none; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; color: #64748B; padding: 20px; }
+        .table tbody td { padding: 20px; vertical-align: middle; border-top: 1px solid #F1F5F9; }
+
+        /* --- BUTTONS & MODALS --- */
+        .btn-brand { background: var(--brand-gradient); color: white; border: none; font-weight: 700; border-radius: 12px; transition: 0.3s; }
+        .btn-brand:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,111,0,0.3); color: white; }
+        
+        .modal-content { border: none; border-radius: 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.1); }
+        .modal-header { border-bottom: 1px solid #F1F5F9; padding: 25px; }
+        .form-control { border-radius: 12px; padding: 12px; border: 2px solid #E2E8F0; }
+        .form-control:focus { border-color: var(--brand-orange); box-shadow: none; }
+
+        .sn-badge { background: #F1F5F9; color: #475569; padding: 5px 12px; border-radius: 8px; font-weight: 800; }
+    </style>
 </head>
-<body class="bg-light">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img src="@{/images/logo.png}"
-				src="../static/images/logo.png" width="auto" height="40"
-				class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+<body>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto"></ul>
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="Dashboard">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="logout">Logout</a>
-					</li>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/admin/Dashboard">Mazi<span>Mandai</span></a>
+            <div class="ml-auto">
+                <a href="/admin/Dashboard" class="btn btn-light btn-sm rounded-pill px-3 mr-2">Dashboard</a>
+                <a href="/admin/logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</a>
+            </div>
+        </div>
+    </nav>
 
-				</ul>
+    <div class="page-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="font-weight-bold mb-0">Category Vault</h2>
+                <p class="text-muted mb-0" style="color: #94A3B8 !important;">Organize your Dharashiv inventory</p>
+            </div>
+            <button class="btn btn-brand px-4 py-2" data-toggle="modal" data-target="#addCategoryModal">
+                <i class="fas fa-plus-circle mr-2"></i> Add New Category
+            </button>
+        </div>
+    </div>
 
-			</div>
-		</div>
-	</nav><br>
-	<div class="container">
+    <div class="container mb-5">
+        <div class="data-card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="60%">Category Name</th>
+                        <th width="30%" class="text-right">Management</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="category" items="${categories}">
+                        <tr>
+                            <td><span class="sn-badge">${category.id}</span></td>
+                            <td><h6 class="font-weight-bold mb-0 text-dark">${category.name}</h6></td>
+                            <td class="text-right">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-warning mr-2 rounded-lg" 
+                                            onclick="openUpdateModal('${category.id}', '${category.name}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <a href="/admin/categories/delete?id=${category.id}" 
+                                       class="btn btn-sm btn-outline-danger rounded-lg"
+                                       onclick="return confirm('Archive this category?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <form action="categories" method="post">
+                    <div class="modal-header border-0">
+                        <h4 class="font-weight-bold">New Category</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="small font-weight-bold">CATEGORY NAME</label>
+                        <input type="text" name="categoryname" class="form-control" placeholder="e.g. Organic Fruits" required>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-brand btn-block py-3">Save Category</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="updateCategoryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <form action="categories/update" method="get">
+                    <div class="modal-header border-0">
+                        <h4 class="font-weight-bold">Update Category</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label class="small font-weight-bold">ID (Read Only)</label>
+                            <input type="text" name="categoryid" id="upd_id" class="form-control bg-light" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="small font-weight-bold">RENAME CATEGORY</label>
+                            <input type="text" name="categoryname" id="upd_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-brand btn-block py-3">Apply Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-		<!-- Button trigger modal -->
-		<button type="button" style="margin: 20px 0" class="btn btn-primary"
-			data-toggle="modal" data-target="#exampleModalCenter">Add
-			Category</button>
+    <script>
+        // Efficient Update Handler: No more loop-based modals!
+        function openUpdateModal(id, name) {
+            document.getElementById('upd_id').value = id;
+            document.getElementById('upd_name').value = name;
+            $('#updateCategoryModal').modal('show');
+        }
+    </script>
 
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
-			role="dialog" aria-labelledby="exampleModalCenterTitle"
-			aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<form action="categories" method="post">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLongTitle">Add New
-								Category</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body  text-center">
-							<input type="text" name="categoryname" class="form-control"
-								id="name" required="required" placeholder="Category name">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-							<input type="submit" value="Save Changes" class="btn btn-primary">
-						</div>
-					</form>
-				</div>
-			</div>
-		</div><br>
-
-
-
-
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th scope="col">SN</th>
-					<th scope="col">Category Name</th>
-					<th scope="col">Delete</th>
-					<th scope="col">Update</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-				<c:forEach var="category" items="${categories }">
-				<tr>
-					<td>${category.id }</td>
-					<td>${category.name }</td>
-
-					<td>
-						<form action="categories/delete" method="get">
-							<input type="hidden" name="id" value="${category.id}">
-							<input type="submit" value="Delete" class="btn btn-danger">
-						</form>
-					</td>
-
-					<td>
-						<form action="categories/update" method="get">
-
-
-
-
-							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-warning" data-toggle="modal"
-								data-target="#exampleModalCenter2"
-								onclick="document.getElementById('categoryname').value =  '${category.name }'; document.getElementById('categoryid').value =  '${category.id}'; ">Update
-							</button>
-
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter2" tabindex="-1"
-								role="dialog" aria-labelledby="exampleModalCenterTitle"
-								aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLongTitle">Update
-													Product Details</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body text-center">
-												<div class="form-group">
-													<input class="form-control" type="number"
-														readonly="readonly" name ="categoryid" id="categoryid" value="0">
-												</div>
-												<div class="form-group">
-													<input class="form-control" type="text" name= "categoryname" id="categoryname"
-														value="categoryname">
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary"
-													data-dismiss="modal">Close</button>
-												<button type="submit" class="btn btn-primary">Update
-													changes</button>
-											</div>
-
-										</div>
-								</div>
-							</div>
-
-
-
-						</form>
-					</td>
-
-				</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
