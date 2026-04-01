@@ -5,255 +5,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mazi Mandai | Premium Freshness</title>
+    <title>Mazi Mandai | Dharashiv's Fresh Hub</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
     <style>
         :root {
             --brand-orange: #FF6F00;
             --brand-gradient: linear-gradient(135deg, #FF6F00 0%, #FF9100 100%);
             --royal-dark: #0F172A;
-            --glass-white: rgba(255, 255, 255, 0.85);
             --soft-bg: #F8FAFC;
+            --glass: rgba(255, 255, 255, 0.96);
         }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--soft-bg); 
-            color: var(--royal-dark);
-            overflow-x: hidden;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--soft-bg); color: var(--royal-dark); padding-top: 80px; }
 
-        /* --- 1. PREMIUM NAVBAR --- */
-        .navbar {
-            background: var(--glass-white) !important;
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
-        .navbar-brand { font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
-        .navbar-brand span { color: var(--brand-orange); }
+        /* --- NAVIGATION --- */
+        .navbar-custom { background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,0,0,0.05); height: 80px; z-index: 1100; }
+        .nav-logo { font-weight: 800; font-size: 1.6rem; color: var(--royal-dark) !important; text-decoration: none !important;}
+        .nav-logo span { color: var(--brand-orange); }
 
-        .search-container {
-            background: #F1F5F9;
-            border-radius: 12px;
-            padding: 5px 15px;
-            transition: 0.3s;
-            border: 1px solid transparent;
+        /* --- SMART SEARCH BAR --- */
+        .search-container { position: relative; width: 100%; max-width: 550px; }
+        .search-input { 
+            border-radius: 50px; border: 1px solid #e2e8f0; 
+            padding: 12px 50px 12px 50px !important; 
+            background: #f1f5f9; transition: 0.3s; font-size: 0.95rem; height: 50px;
         }
-        .search-container:focus-within {
-            background: white;
-            border-color: var(--brand-orange);
-            box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.1);
-        }
-        .search-input { border: none; background: transparent; outline: none; width: 250px; font-size: 0.9rem; }
+        .search-input:focus { background: white; border-color: var(--brand-orange); box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.1); outline: none; }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; z-index: 5; }
+        .clear-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; font-size: 1.2rem; z-index: 10; display: none; }
 
-        /* --- 2. HERO SECTION --- */
-        .hero-banner {
-            background: var(--brand-gradient);
-            border-radius: 30px;
-            padding: 60px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(255, 111, 0, 0.2);
-        }
-        .hero-banner h1 { font-weight: 800; font-size: 3.5rem; line-height: 1.1; }
-        .hero-badge {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
+        /* --- CATEGORY BAR --- */
+        .category-bar { background: white; border-bottom: 1px solid #edf2f7; position: sticky; top: 80px; z-index: 1000; padding: 15px 0; }
+        .scroll-wrapper { display: flex; overflow-x: auto; gap: 12px; scrollbar-width: none; }
+        .scroll-wrapper::-webkit-scrollbar { display: none; }
+        .cat-pill { background: #f1f5f9; padding: 10px 24px; border-radius: 50px; font-weight: 700; color: #64748B; white-space: nowrap; transition: 0.3s; text-decoration: none !important; }
+        .cat-pill.active { background: var(--brand-orange); color: white; box-shadow: 0 4px 12px rgba(255, 111, 0, 0.2); }
 
-        /* --- 3. CATEGORY CHIPS --- */
-        .category-chip {
-            background: white;
-            border: 1px solid #E2E8F0;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            color: #64748B;
-            transition: 0.3s;
-            display: inline-block;
-            margin-right: 10px;
-            white-space: nowrap;
-        }
-        .category-chip:hover, .category-chip.active {
-            background: var(--brand-orange);
-            color: white;
-            border-color: var(--brand-orange);
-            text-decoration: none;
-        }
-
-        /* --- 4. PRODUCT CARDS --- */
-        .product-card {
-            background: white;
-            border: none;
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 20px;
-            height: 100%;
-        }
-        .product-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-        }
-        .img-container {
-            height: 180px;
-            border-radius: 18px;
-            background: #F8FAFC;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .img-container img { max-height: 140px; transition: 0.5s; }
-        .product-card:hover .img-container img { transform: scale(1.1) rotate(5deg); }
-
-        .price-text { font-size: 1.4rem; font-weight: 800; color: #1e293b; }
+        /* --- PRODUCT CARDS --- */
+        .product-card { background: white; border-radius: 24px; padding: 20px; border: none; transition: 0.4s; height: 100%; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.06); }
+        .img-holder { height: 180px; background: #f8fafc; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+        .img-holder img { max-height: 140px; transition: 0.5s; object-fit: contain; }
         
-        .add-btn {
-            background: var(--brand-gradient);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            width: 45px;
-            height: 45px;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .add-btn:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(255, 111, 0, 0.4); }
-
-        /* --- 5. FLOATING ELEMENTS (100x ADDITIONS) --- */
-        .floating-cart {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            background: var(--royal-dark);
-            color: white !important;
-            padding: 12px 25px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            z-index: 1050;
-            text-decoration: none !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .floating-cart:hover { transform: scale(1.05) translateY(-5px); }
-        .cart-badge-count {
-            background: var(--brand-orange);
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 50px;
-            position: absolute;
-            top: -10px;
-            right: -5px;
-            border: 2px solid white;
+        /* --- BUTTONS & ALERTS --- */
+        .add-cart-btn { background: var(--brand-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 14px; transition: 0.3s; cursor: pointer; }
+        .add-cart-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+        
+        .toast-notification {
+            position: fixed; top: 100px; right: 20px; background: var(--royal-dark); color: white; 
+            padding: 16px 24px; border-radius: 16px; z-index: 3000; display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 600;
         }
 
-        #cart-toast {
-            position: fixed;
-            top: 100px;
-            right: -400px;
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            width: 300px;
-            z-index: 2000;
-            transition: 0.5s;
-            border-left: 5px solid #10B981;
-        }
-        #cart-toast.show { right: 30px; }
-
-        @media (max-width: 768px) {
-            .mobile-bottom-nav {
-                position: fixed; bottom: 20px; left: 20px; right: 20px;
-                background: var(--royal-dark); border-radius: 20px; padding: 15px;
-                display: flex; justify-content: space-around; z-index: 1000;
-            }
-            .floating-cart { bottom: 90px; right: 20px; padding: 10px 15px; }
-        }
+        .cart-float { position: fixed; bottom: 30px; right: 30px; background: var(--royal-dark); color: white !important; padding: 15px 30px; border-radius: 50px; z-index: 2000; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-decoration: none !important; }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
+<div id="cartToast" class="toast-notification">
+    <i class="fas fa-shopping-basket text-warning mr-2"></i> Added to your Dharashiv basket!
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/">Mazi<span>Mandai</span></a>
+        <a class="navbar-brand nav-logo" href="/">MAZI<span>MANDAI</span></a>
         
-        <div class="d-none d-lg-flex align-items-center">
-            <form action="/shop/search" method="get" class="search-container mr-4">
-                <i class="fas fa-search text-muted mr-2"></i>
-                <input type="text" name="query" class="search-input" placeholder="Search Fresh Produce...">
-            </form>
-            
-            <div class="user-actions d-flex align-items-center">
-                <a href="/user/profile" class="mr-4 text-dark font-weight-600">
-                    <i class="far fa-user-circle mr-1"></i> ${username}
-                </a>
-                <a href="/logout" class="btn btn-link text-danger p-0 font-weight-bold">Exit</a>
+        <form action="/" method="GET" id="searchForm" class="search-container d-none d-lg-block mx-auto">
+            <i class="fa fa-search search-icon"></i>
+            <input type="text" name="search" id="productSearch" class="form-control search-input" 
+                   placeholder="Search fresh mangoes, veggies..." value="${search}" autocomplete="off">
+            <i class="fa fa-times-circle clear-icon" id="clearSearch"></i>
+            <input type="hidden" name="categoryId" value="${categoryId}">
+        </form>
+
+        <div class="ml-auto d-flex align-items-center">
+            <div class="mr-3 text-right d-none d-sm-block">
+                <small class="text-muted d-block">Welcome,</small>
+                <span class="font-weight-bold text-uppercase" style="font-size:0.8rem;">${username}</span>
             </div>
+            <a href="/user/profile" class="text-dark bg-light rounded-circle" style="width:45px; height:45px; display:flex; align-items:center; justify-content:center; text-decoration:none;">
+                <i class="fa fa-user"></i>
+            </a>
         </div>
     </div>
 </nav>
 
-<div class="container mt-5">
-    
-    <div class="hero-banner">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <span class="hero-badge mb-3 d-inline-block">Dharashiv Local Delivery</span>
-                <h1>Freshness <br>Redefined.</h1>
-                <p class="mt-3 opacity-75">Farm-to-fork in under 45 minutes. No middlemen, just quality.</p>
-                <a href="#store" class="btn btn-light rounded-pill px-4 py-2 font-weight-bold mt-4 shadow">Shop Now</a>
-            </div>
-            <div class="col-lg-5 d-none d-lg-block text-right">
-                <i class="fas fa-leaf fa-10x opacity-25"></i>
-            </div>
+<div class="category-bar shadow-sm">
+    <div class="container">
+        <div class="scroll-wrapper">
+            <a href="/?search=${search}" class="cat-pill ${empty categoryId ? 'active' : ''}">All Fresh Items</a>
+            <c:forEach var="cat" items="${categories}">
+                <a href="/?categoryId=${cat.id}&search=${search}" class="cat-pill ${cat.id == categoryId ? 'active' : ''}">${cat.name}</a>
+            </c:forEach>
         </div>
     </div>
+</div>
 
-    <div class="d-flex overflow-auto pb-4 no-scrollbar" id="store">
-        <a href="/" class="category-chip active">All Products</a>
-        <a href="/shop/search?query=Vegetables" class="category-chip">Vegetables</a>
-        <a href="/shop/search?query=Fruits" class="category-chip">Fruits</a>
-        <a href="/shop/search?query=Organic" class="category-chip">Organic Picks</a>
-        <a href="/shop/search?query=Spices" class="category-chip">Pure Spices</a>
-    </div>
-
-    <div class="row mt-4">
-        <c:forEach var="product" items="${products}">
+<div class="container mt-4">
+    <div class="row">
+        <c:forEach var="p" items="${products}">
             <div class="col-6 col-md-4 col-lg-3 mb-4">
                 <div class="product-card shadow-sm">
-                    <div class="img-container">
-                        <img src="${product.image}" alt="${product.name}">
+                    <div class="img-holder">
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200?text=Mandai+Fresh'">
                     </div>
-                    <div class="product-info">
-                        <small class="text-uppercase text-muted font-weight-bold" style="letter-spacing: 1px; font-size: 0.65rem;">
-                            ${product.category.name}
-                        </small>
-                        <h6 class="font-weight-bold text-truncate mt-1 mb-0">${product.name}</h6>
-                        <p class="text-muted small text-truncate mb-3">${product.description}</p>
-                        
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="price-text">₹${product.price}</span>
-                                <br><small class="text-muted"><del>₹${product.price + 40}</del></small>
-                            </div>
-                            <button class="add-btn ajax-add" data-id="${product.id}" data-name="${product.name}">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
+                    <div class="flex-grow-1">
+                        <small class="font-weight-bold text-uppercase" style="color: var(--brand-orange); font-size: 0.6rem;">${p.category.name}</small>
+                        <h6 class="font-weight-bold text-truncate mt-1">${p.name}</h6>
+                        <p class="text-muted small text-truncate">${p.description}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <span class="h5 font-weight-800 mb-0">₹${p.price}</span>
+                        <button class="add-cart-btn btn-ajax-add" data-id="${p.id}">
+                            <i class="fa fa-plus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -261,74 +131,62 @@
     </div>
 </div>
 
-<a href="/cart/view" class="floating-cart shadow-lg">
-    <div class="position-relative mr-3">
-        <i class="fas fa-shopping-basket fa-lg"></i>
-        <span class="cart-badge-count" id="cart-counter">0</span>
-    </div>
-    <div class="d-none d-md-block">
-        <small class="d-block opacity-75" style="line-height:1">Basket</small>
-        <span class="font-weight-bold">View Items</span>
+<a href="/cart/view" class="cart-float shadow-lg">
+    <i class="fa fa-shopping-basket mr-3"></i>
+    <div class="text-left d-inline-block">
+        <small class="d-block opacity-75" style="line-height:1; font-size:0.6rem;">Checkout</small>
+        <span class="font-weight-bold">My Basket</span>
     </div>
 </a>
 
-<div id="cart-toast" class="shadow-lg">
-    <div class="d-flex align-items-center">
-        <i class="fas fa-check-circle text-success mr-3 fa-2x"></i>
-        <div>
-            <h6 class="mb-0 font-weight-bold" id="toast-p-name">Product Added</h6>
-            <small class="text-muted">Added to your Dharashiv Mandai</small>
-        </div>
-    </div>
-</div>
-
-<footer class="mt-5 py-5 bg-white border-top text-center">
-    <div class="container">
-        <p class="font-weight-bold mb-1">Mazi Mandai</p>
-        <p class="text-muted small">Crafted for Dharashiv Diaries Project &copy; 2026</p>
-    </div>
-</footer>
-
-<div class="mobile-bottom-nav d-lg-none">
-    <a href="/" class="active"><i class="fas fa-home"></i></a>
-    <a href="/shop/search"><i class="fas fa-search"></i></a>
-    <a href="/cart/view"><i class="fas fa-shopping-basket"></i></a>
-    <a href="/user/profile"><i class="fas fa-user"></i></a>
-</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 <script>
-    document.querySelectorAll('.ajax-add').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            const productName = this.getAttribute('data-name');
+$(document).ready(function() {
+    const $search = $("#productSearch");
+    const $clear = $("#clearSearch");
 
-            // Fire AJAX request to the Controller method we created
-            fetch('/cart/add/' + productId)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // 1. Update Floating Badge
-                        document.getElementById('cart-counter').innerText = data.cartCount;
+    // 1. Search Logic
+    function checkSearch() { $search.val().length > 0 ? $clear.show() : $clear.hide(); }
+    checkSearch();
+    $search.on("input", checkSearch);
+    $clear.on("click", function() { $search.val(""); checkSearch(); window.location.href="/"; });
 
-                        // 2. Show Success Toast
-                        document.getElementById('toast-p-name').innerText = productName;
-                        const toast = document.getElementById('cart-toast');
-                        toast.classList.add('show');
-                        setTimeout(() => toast.classList.remove('show'), 3000);
+    $search.autocomplete({
+        source: "/searchSuggestions",
+        minLength: 2,
+        select: function(event, ui) { $search.val(ui.item.value); $("#searchForm").submit(); }
+    });
 
-                        // 3. Button Animation
-                        this.innerHTML = '<i class="fas fa-check"></i>';
-                        this.style.background = '#10B981';
-                        setTimeout(() => {
-                            this.innerHTML = '<i class="fas fa-plus"></i>';
-                            this.style.background = 'var(--brand-gradient)';
-                        }, 2000);
-                    }
-                })
-                .catch(err => console.error("Error:", err));
+    // 2. PREMIUM AJAX ADD TO CART (Fixes JSON redirect)
+    $(".btn-ajax-add").on("click", function(e) {
+        e.preventDefault();
+        const productId = $(this).data("id");
+        const $btn = $(this);
+        const originalIcon = $btn.html();
+
+        // Loading state
+        $btn.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
+
+        $.ajax({
+            url: '/cart/add/' + productId,
+            type: 'POST',
+            success: function(res) {
+                $("#cartToast").fadeIn().delay(2000).fadeOut();
+                $btn.html('<i class="fas fa-check"></i>').css('background', '#28a745');
+                setTimeout(() => {
+                    $btn.html(originalIcon).css('background', '').prop('disabled', false);
+                }, 1500);
+            },
+            error: function() {
+                alert("Please login to add items to your basket.");
+                $btn.html(originalIcon).prop('disabled', false);
+            }
         });
     });
+});
 </script>
-
 </body>
 </html>

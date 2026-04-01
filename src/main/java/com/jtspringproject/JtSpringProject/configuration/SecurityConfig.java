@@ -12,18 +12,23 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable()) // Disable to allow your custom POST login
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // Critical: Controller handles the redirects
-            );
-        return http.build();
-    }
-
+    // THIS FIXES THE BEAN ERROR
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // THIS FIXES THE API FETCHING ERROR (Permission)
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // Disable CSRF for Mobile/Postman testing
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/**").permitAll() // Allow your React Native app to access /api/products
+                .anyRequest().permitAll()
+            )
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()));
+            
+        return http.build();
     }
 }

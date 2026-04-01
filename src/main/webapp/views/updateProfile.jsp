@@ -95,13 +95,13 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Username (Permanent)</label>
-                            <input type="text" class="form-control" value="${user.username}" readonly style="background: #f8fafc; cursor: not-allowed;">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" value="${user.username}" >
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" value="${user.email}" required>
+                            <label class="form-label">Email Address (Permanent)</label>
+                            <input type="email" name="email" class="form-control" value="${user.email}" readonly style="background: #f8fafc; cursor: not-allowed;">
                         </div>
 
                         <div class="col-md-12 mb-4">

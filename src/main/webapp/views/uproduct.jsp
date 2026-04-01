@@ -1,235 +1,345 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders | Mazi Mandai Premium</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders | Mazi Mandai Premium</title>
 
-    <style>
-        :root {
-            --brand-orange: #FF6F00;
-            --brand-gradient: linear-gradient(135deg, #FF6F00 0%, #FF9100 100%);
-            --royal-dark: #0F172A;
-            --bg-light: #F8FAFC;
-            --success-green: #2E7D32;
-        }
+<link
+	href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg-light); 
-            color: var(--royal-dark);
-        }
+<style>
+:root {
+	--brand-orange: #FF6F00;
+	--brand-gradient: linear-gradient(135deg, #FF6F00 0%, #FF9100 100%);
+	--royal-dark: #0F172A;
+	--bg-light: #F1F5F9;
+}
 
-        /* --- 1. PREMIUM NAVBAR --- */
-        .navbar {
-            background: white !important;
-            border-bottom: 3px solid var(--brand-orange);
-            padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-        .navbar-brand { font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; }
-        .navbar-brand span { color: var(--brand-orange); }
+body {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	background-color: var(--bg-light);
+	color: var(--royal-dark);
+}
 
-        /* --- 2. SIDEBAR (FLIPKART STYLE) --- */
-        .sidebar-card {
-            background: white;
-            border-radius: 20px;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            overflow: hidden;
-        }
-        .sidebar-header {
-            background: var(--brand-gradient);
-            padding: 30px 20px;
-            color: white;
-            text-align: center;
-        }
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            color: #64748B;
-            font-weight: 600;
-            transition: 0.3s;
-            text-decoration: none !important;
-            border-left: 4px solid transparent;
-        }
-        .sidebar-link i { width: 30px; font-size: 1.1rem; }
-        .sidebar-link:hover, .sidebar-link.active {
-            background: #FFF7ED;
-            color: var(--brand-orange);
-            border-left-color: var(--brand-orange);
-        }
+/* --- PREMIUM NAVBAR --- */
+.navbar {
+	background: white !important;
+	border-bottom: 2px solid var(--brand-orange);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
-        /* --- 3. ORDER CARDS (AMAZON STYLE) --- */
-        .order-card {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-            transition: 0.3s;
-        }
-        .order-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-        }
-        .status-badge {
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .status-preparing { background: #FEF3C7; color: #92400E; }
-        .status-delivered { background: #DCFCE7; color: #166534; }
-        
-        .price-tag { font-size: 1.4rem; font-weight: 800; color: var(--success-green); }
-        
-        /* Pulse animation for preparing orders */
-        .pulse-dot {
-            height: 10px; width: 10px;
-            background-color: #F59E0B;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
-    </style>
+.navbar-brand {
+	font-weight: 800;
+}
+
+.navbar-brand span {
+	color: var(--brand-orange);
+}
+
+/* --- SIDEBAR --- */
+.sidebar-card {
+	background: white;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+	border: none;
+}
+
+.sidebar-link {
+	display: flex;
+	align-items: center;
+	padding: 12px 20px;
+	color: #64748B;
+	font-weight: 600;
+	transition: 0.3s;
+	text-decoration: none !important;
+}
+
+.sidebar-link:hover, .sidebar-link.active {
+	background: #FFF7ED;
+	color: var(--brand-orange);
+	border-right: 4px solid var(--brand-orange);
+}
+
+/* --- ORDER CONTAINER --- */
+.order-container {
+	background: white;
+	border-radius: 24px;
+	border: 1px solid #E2E8F0;
+	margin-bottom: 30px;
+	transition: 0.3s;
+	overflow: hidden;
+}
+
+.order-container:hover {
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+	transform: translateY(-3px);
+}
+
+.order-header {
+	background: #F8FAFC;
+	padding: 20px 30px;
+	border-bottom: 1px solid #E2E8F0;
+}
+
+/* --- PRODUCT VIEW WITHIN ORDER --- */
+.product-strip {
+	padding: 20px 30px;
+	border-bottom: 1px dashed #E2E8F0;
+	transition: 0.2s;
+}
+
+.product-strip:hover {
+	background: #FCFCFD;
+}
+
+.product-img {
+	width: 70px;
+	height: 70px;
+	object-fit: cover;
+	border-radius: 12px;
+	background: #f1f5f9;
+	border: 1px solid #eee;
+}
+
+/* --- AMAZON STYLE TRACKING --- */
+.track-bar {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	position: relative;
+}
+
+.track-step {
+	flex: 1;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+}
+
+.track-step::before {
+	content: "";
+	position: absolute;
+	top: 15px;
+	left: -50%;
+	width: 100%;
+	height: 3px;
+	background: #E2E8F0;
+	z-index: -1;
+}
+
+.track-step:first-child::before {
+	display: none;
+}
+
+.dot {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: #E2E8F0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 8px;
+	color: white;
+	font-size: 0.8rem;
+	border: 4px solid white;
+}
+
+.track-step.active .dot {
+	background: var(--brand-orange);
+	box-shadow: 0 0 0 1px var(--brand-orange);
+}
+
+.track-step.active::before {
+	background: var(--brand-orange);
+}
+
+.track-step.active span {
+	color: var(--brand-orange);
+	font-weight: 800;
+}
+
+.btn-invoice {
+	border-radius: 10px;
+	font-weight: 700;
+	border: 1px solid #E2E8F0;
+	color: #64748B;
+	background: white;
+	transition: 0.3s;
+}
+
+.btn-invoice:hover {
+	background: var(--royal-dark);
+	color: white;
+}
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="/">Mazi<span>Mandai</span></a>
-        <div class="ml-auto d-flex align-items-center">
-            <span class="d-none d-md-inline mr-3 text-muted">Welcome, <strong>${username}</strong></span>
-            <a href="/" class="btn btn-orange btn-sm rounded-pill px-4 shadow-sm" style="background: var(--brand-orange); color:white;">Shop More</a>
-        </div>
-    </div>
-</nav>
+	<nav class="navbar navbar-expand-lg sticky-top">
+		<div class="container">
+			<a class="navbar-brand" href="/">Mazi<span>Mandai</span></a>
+			<div class="ml-auto d-flex align-items-center">
+				<span
+					class="mr-3 d-none d-md-inline text-muted small font-weight-bold">DHARASHIV
+					EXPRESS <i class="fa fa-bolt text-warning"></i>
+				</span> <a href="/" class="btn btn-dark btn-sm rounded-pill px-4">Continue
+					Shopping</a>
+			</div>
+		</div>
+	</nav>
 
-<div class="container mt-5 pb-5">
-    
-    <c:if test="${not empty msg}">
-        <div class="alert alert-success border-0 shadow-sm rounded-pill px-4 py-3 mb-4">
-            <i class="fas fa-check-circle mr-2"></i> ${msg}
-        </div>
-    </c:if>
+	<div class="container mt-5 pb-5">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="sidebar-card mb-4">
+					<div class="p-4 text-center border-bottom bg-light">
+						<div
+							class="rounded-circle bg-white shadow-sm d-inline-flex align-items-center justify-content-center mb-3"
+							style="width: 70px; height: 70px; border: 2px solid var(--brand-orange);">
+							<i class="fas fa-user text-warning fa-2x"></i>
+						</div>
+						<h6 class="font-weight-800 mb-0">${username}</h6>
+						<p class="small text-muted mb-0">Verified Customer</p>
+					</div>
+					<div class="py-2">
+						<a href="/user/profile" class="sidebar-link"><i
+							class="fas fa-id-card mr-3"></i> Profile</a> <a href="/user/orders"
+							class="sidebar-link active"><i
+							class="fas fa-shopping-bag mr-3"></i> My Orders</a> <a href="/logout"
+							class="sidebar-link text-danger"><i
+							class="fas fa-power-off mr-3"></i> Logout</a>
+					</div>
+				</div>
+			</div>
 
-    <div class="row">
-        
-        <div class="col-lg-3 mb-4">
-            <div class="sidebar-card mb-4">
-                <div class="sidebar-header">
-                    <i class="fas fa-user-astronaut fa-3x mb-3"></i>
-                    <h5 class="font-weight-bold mb-0 text-truncate">${username}</h5>
-                    <small class="opacity-75">Dharashiv, MH</small>
-                </div>
-                <div class="py-2">
-                    <a href="/user/profile" class="sidebar-link">
-                        <i class="fas fa-user-edit"></i> Profile Settings
-                    </a>
-                    <a href="/user/orders" class="sidebar-link active">
-                        <i class="fas fa-shopping-bag"></i> My Orders
-                    </a>
-                    <a href="/cart/view" class="sidebar-link">
-                        <i class="fas fa-cart-arrow-down"></i> View Basket
-                    </a>
-                    <hr class="mx-3">
-                    <a href="/logout" class="sidebar-link text-danger">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </div>
-            </div>
-        </div>
+			<div class="col-lg-9">
+				<div class="d-flex justify-content-between align-items-end mb-4">
+					<h3 class="font-weight-800 mb-0">Order History</h3>
+					<p class="text-muted small mb-0">${orders.size()}orders placed</p>
+				</div>
 
-        <div class="col-lg-9">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="font-weight-bold m-0">Recent Deliveries</h3>
-                <span class="text-muted small font-weight-600">${orders.size()} Records Found</span>
-            </div>
+				<c:choose>
+					<c:when test="${empty orders}">
+						<div
+							class="card border-0 shadow-sm rounded-xl p-5 text-center bg-white">
+							<i class="fas fa-shopping-basket fa-4x text-light mb-3"></i>
+							<h5 class="text-muted">No orders found!</h5>
+							<a href="/"
+								class="btn btn-warning mt-3 px-5 rounded-pill font-weight-bold">Order
+								Fresh Veggies</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="order" items="${orders}">
+							<div class="order-container shadow-sm">
+								<div class="order-header row mx-0 align-items-center">
+									<div class="col-md-3 border-right">
+										<p class="small text-muted font-weight-bold mb-0">ORDER
+											DATE</p>
+										<span class="font-weight-bold">${order.getFormattedDate()}</span>
+									</div>
+									<div class="col-md-2 border-right">
+										<p class="small text-muted font-weight-bold mb-0">TOTAL</p>
+										<span class="font-weight-bold text-success">₹${order.totalAmount}</span>
+									</div>
+									<div class="col-md-4 border-right">
+										<p class="small text-muted font-weight-bold mb-0">SHIP TO</p>
+										<span class="font-weight-bold text-dark text-truncate d-block">${order.area}</span>
+									</div>
+									<div class="col-md-3 text-md-right">
+										<p class="small text-muted font-weight-bold mb-0">ORDER ID</p>
+										<span class="font-weight-bold">#MM-${order.id}</span>
+									</div>
+								</div>
 
-            <c:if test="${empty orders}">
-                <div class="card border-0 shadow-sm rounded-lg p-5 text-center bg-white">
-                    <div class="mb-4">
-                        <i class="fas fa-box-open fa-5x text-light"></i>
-                    </div>
-                    <h4 class="text-muted">No Orders Found</h4>
-                    <p class="text-secondary">It looks like you haven't placed any orders yet.</p>
-                    <a href="/" class="btn btn-warning rounded-pill px-5 mt-3 shadow">Start Shopping</a>
-                </div>
-            </c:if>
+								<div class="bg-white">
+									<c:forEach var="item" items="${order.items}">
+										<div class="product-strip">
+											<a href="/product/view?id=${item.product.id}"
+												class="text-decoration-none">
+												<div class="row align-items-center">
+													<div class="col-auto">
+														<img src="${item.product.image}" class="product-img"
+															onerror="this.src='https://via.placeholder.com/100?text=Mandai'">
+													</div>
+													<div class="col pl-0">
+														<h6 class="font-weight-800 mb-0 text-dark">${item.product.name}</h6>
+														<small class="text-muted">Quantity:
+															${item.quantity} | Price: ₹${item.priceAtPurchase}</small>
+													</div>
+													<div class="col-md-3 text-right">
+														<span class="font-weight-bold text-dark">₹${item.priceAtPurchase * item.quantity}</span>
+													</div>
+												</div>
+											</a>
+										</div>
+									</c:forEach>
+								</div>
 
-            <c:forEach var="order" items="${orders}">
-                <div class="order-card shadow-sm">
-                    <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted small text-uppercase font-weight-bold">Order ID</span>
-                            <h6 class="font-weight-bold mb-0">#MM-2026-${order.id}</h6>
-                        </div>
-                        <div class="text-right">
-                            <c:choose>
-                                <c:when test="${order.status == 'DELIVERED'}">
-                                    <span class="status-badge status-delivered">
-                                        <i class="fas fa-check-circle mr-1"></i> Delivered
-                                    </span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="status-badge status-preparing">
-                                        <span class="pulse-dot"></span> ${order.status}
-                                    </span>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </div>
-                    
-                    <div class="card-body px-4 pb-4">
-                        <hr class="my-3 opacity-50">
-                        <div class="row align-items-center">
-                            <div class="col-md-7">
-                                <div class="d-flex align-items-start mb-3">
-                                    <i class="fas fa-map-marker-alt text-danger mt-1 mr-3"></i>
-                                    <div>
-                                        <p class="small text-muted mb-0">Delivering to:</p>
-                                        <p class="font-weight-600 mb-0">${order.address}</p>
-                                        <small class="text-muted">PIN: ${order.pincode} | Contact: ${order.contact}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5 text-md-right border-left">
-                                <p class="small text-muted mb-1">Total Bill (${order.paymentMethod})</p>
-                                <h2 class="price-tag mb-0">₹${order.totalAmount}</h2>
-                                <button class="btn btn-light btn-sm mt-3 rounded-pill px-4">
-                                    <i class="fas fa-file-invoice mr-2"></i> Invoice
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
+								<div class="p-4 bg-white">
+									<div class="track-bar mb-4">
+										<div class="track-step active">
+											<div class="dot">
+												<i class="fas fa-check"></i>
+											</div>
+											<span class="d-block small font-weight-bold">Confirmed</span>
+										</div>
+										<div
+											class="track-step ${order.status == 'DISPATCHED' || order.status == 'DELIVERED' ? 'active' : ''}">
+											<div class="dot">
+												<i class="fas fa-shipping-fast"></i>
+											</div>
+											<span class="d-block small font-weight-bold">Out for
+												Delivery</span>
+										</div>
+										<div
+											class="track-step ${order.status == 'DELIVERED' ? 'active' : ''}">
+											<div class="dot">
+												<i class="fas fa-home"></i>
+											</div>
+											<span class="d-block small font-weight-bold">Arrived</span>
+										</div>
+									</div>
 
-            <div class="text-center mt-5">
-                <p class="text-muted small">Showing your last 12 months of activity. <br> Dharashiv Diaries Tech v3.0</p>
-            </div>
-        </div>
+									<div
+										class="d-flex justify-content-between align-items-center pt-3 border-top mt-4">
+										<div class="small">
+											<span class="text-muted">Payment:</span> <strong
+												class="text-uppercase">${order.paymentMethod}</strong>
+										</div>
+										<div class="d-flex align-items-center">
+											<button class="btn btn-invoice btn-sm px-3 mr-2">
+												<i class="fas fa-file-alt mr-2"></i>Invoice
+											</button>
+											<button class="btn btn-warning btn-sm px-3 font-weight-bold"
+												style="background: var(--brand-gradient); border: none; color: white; border-radius: 10px;">Support</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+	</div>
 
-    </div>
-</div>
-
-<footer class="py-4 mt-5 text-center text-muted border-top bg-white">
-    <p class="small mb-0">&copy; 2026 Mazi Mandai | Maharashtra's Fastest Grocery App</p>
-</footer>
+	<footer class="text-center py-5 text-muted border-top bg-white mt-5">
+		<p class="small mb-1 font-weight-bold text-dark">MAZI MANDAI
+			DHARASHIV</p>
+		<p class="small">© 2026 Crafted by Vishal Jadhav</p>
+	</footer>
 
 </body>
 </html>

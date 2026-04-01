@@ -8,7 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jtspringproject.JtSpringProject.dao.UserRepository;
+import com.jtspringproject.JtSpringProject.models.Category;
+import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.models.User;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class userService {
@@ -53,4 +57,6 @@ public class userService {
 		// TODO Auto-generated method stub
         return userRepository.findById(id).orElse(null);
 	}
+	
+
 }

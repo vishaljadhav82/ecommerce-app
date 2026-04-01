@@ -14,7 +14,7 @@ import jakarta.persistence.OneToOne;
 public class Product {
 	@Id
 	@Column(name = "product_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Change this from AUTO or SEQUENCE	
 	private Long id;
 	
 	private String name;
@@ -29,7 +29,7 @@ public class Product {
 	
 	private int price;
 	
-	private int weight;
+	private String weight;
 	
 	private String description;
 
@@ -82,11 +82,11 @@ public class Product {
 		this.price = price;
 	}
 
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 

@@ -1,5 +1,5 @@
-<%-- 1. ADD THIS AT THE VERY TOP TO FIX THE GARBLED SYMBOLS --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,20 +15,18 @@
         :root {
             --primary-gradient: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
             --orange-gradient: linear-gradient(135deg, #FF6F00 0%, #FF9100 100%);
+            --danger-soft: #FEF2F2;
             --glass: rgba(255, 255, 255, 0.95);
             --dark-bg: #0F172A;
-            --success-bg: #DCFCE7;
-            --success-text: #15803D;
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: #F8FAFC; 
             color: #1E293B;
-            overflow-x: hidden;
         }
 
-        /* --- 1. MODERN NAVBAR --- */
+        /* --- MODERN UI COMPONENTS --- */
         .navbar {
             background: var(--glass) !important;
             backdrop-filter: blur(10px);
@@ -38,44 +36,29 @@
         .navbar-brand { font-weight: 800; font-size: 1.5rem; color: var(--dark-bg) !important; }
         .navbar-brand span { color: #FF6F00; }
 
-        /* --- 2. HERO JUMBOTRON --- */
         .admin-hero {
             background: var(--dark-bg);
-            padding: 60px 0;
+            padding: 60px 0 100px 0;
             color: white;
             border-radius: 0 0 50px 50px;
-            margin-bottom: -50px;
-        }
-        .hero-badge {
-            background: rgba(255,255,255,0.1);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
-        /* --- 3. 100x STAT CARDS --- */
         .stat-card {
             background: white;
             border: none;
             border-radius: 24px;
             padding: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            position: relative;
-            overflow: hidden;
+            margin-top: -40px;
         }
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+
         .icon-box {
-            width: 60px; height: 60px;
-            border-radius: 18px;
+            width: 50px; height: 50px;
+            border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; margin-bottom: 20px;
-            color: white;
+            font-size: 1.2rem; margin-bottom: 15px; color: white;
         }
         .bg-purple { background: var(--primary-gradient); }
         .bg-orange { background: var(--orange-gradient); }
@@ -83,35 +66,23 @@
         .bg-blue { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
 
         .card-link-btn {
-            background: #F1F5F9;
-            color: #475569;
-            font-weight: 700;
-            border-radius: 12px;
-            padding: 10px 20px;
-            text-decoration: none !important;
-            display: block;
-            transition: 0.3s;
+            background: #F1F5F9; color: #475569;
+            font-weight: 700; border-radius: 12px;
+            padding: 10px; display: block; text-align: center;
+            text-decoration: none !important; transition: 0.3s;
         }
         .card-link-btn:hover { background: var(--dark-bg); color: white; }
 
-        /* --- 4. QUICK ACTION BAR --- */
-        .action-bar {
-            background: white;
-            padding: 25px;
+        /* --- SEEDER SECTION --- */
+        .seeder-box {
+            border: 2px dashed #FDA4AF !important;
+            background: #FFF1F2;
             border-radius: 24px;
-            margin-top: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            border: 1px solid #F1F5F9;
+            padding: 25px;
+            margin-top: 30px;
         }
-        .growth-badge {
-            background: var(--success-bg);
-            color: var(--success-text);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            margin-left: 10px;
-        }
+
+        .modal-content { border-radius: 28px; border: none; }
     </style>
 </head>
 
@@ -121,90 +92,109 @@
         <div class="container">
             <a class="navbar-brand" href="#">Mazi<span>Mandai</span>.admin</a>
             <div class="ml-auto">
-                <a href="/admin/logout" class="btn btn-outline-danger btn-sm rounded-pill font-weight-bold px-4">
-                    <i class="fas fa-power-off mr-2"></i>Logout
-                </a>
+                <a href="/logout" class="btn btn-outline-danger btn-sm rounded-pill px-4">Logout</a>
             </div>
         </div>
     </nav>
 
     <div class="admin-hero text-center">
         <div class="container">
-            <span class="hero-badge">System Status: Operational</span>
-            <h1 class="display-4 font-weight-bold mt-3">Executive Dashboard</h1>
+            <h1 class="display-4 font-weight-bold">Executive Dashboard</h1>
             <p class="lead opacity-75">Welcome back, Vishal. Managing Dharashiv Operations.</p>
         </div>
     </div>
 
     <div class="container">
+        <c:if test="${param.seeded == 'true'}">
+            <div class="alert alert-success border-0 shadow-sm rounded-pill px-4 mb-4 mt-2 d-flex align-items-center">
+                <i class="fas fa-check-circle mr-3"></i>
+                <strong>Database Populated!</strong> 150 products successfully added.
+                <button type="button" class="close ml-auto" data-dismiss="alert">&times;</button>
+            </div>
+        </c:if>
+
         <div class="row">
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card">
-                    <div class="icon-box bg-purple shadow-lg">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h5 class="font-weight-bold text-muted mb-1 text-uppercase small" style="letter-spacing: 1px;">Catalog</h5>
+                    <div class="icon-box bg-purple"><i class="fas fa-layer-group"></i></div>
+                    <h5 class="font-weight-bold text-muted small">CATALOG</h5>
                     <h3 class="font-weight-bold">Categories</h3>
-                    <p class="small text-secondary mb-4">Group products by type.</p>
-                    <a href="/admin/categories" class="card-link-btn text-center">Open Manager</a>
+                    <a href="/admin/categories" class="card-link-btn">Open Manager</a>
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card">
-                    <div class="icon-box bg-orange shadow-lg">
-                        <i class="fas fa-apple-alt"></i>
-                    </div>
-                    <h5 class="font-weight-bold text-muted mb-1 text-uppercase small" style="letter-spacing: 1px;">Inventory</h5>
+                    <div class="icon-box bg-orange"><i class="fas fa-apple-alt"></i></div>
+                    <h5 class="font-weight-bold text-muted small">INVENTORY</h5>
                     <h3 class="font-weight-bold">Products</h3>
-                    <p class="small text-secondary mb-4">Add or Edit items.</p>
-                    <a href="/admin/products" class="card-link-btn text-center">Manage Stock</a>
+                    <a href="/admin/products" class="card-link-btn">Manage Stock</a>
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card">
-                    <div class="icon-box bg-green shadow-lg">
-                        <i class="fas fa-users text-white"></i>
-                    </div>
-                    <h5 class="font-weight-bold text-muted mb-1 text-uppercase small" style="letter-spacing: 1px;">Community</h5>
-                    <h3 class="font-weight-bold">Customers</h3>
-                    <p class="small text-secondary mb-4">Support your users.</p>
-                    <a href="/admin/customers" class="card-link-btn text-center">User Records</a>
+                    <div class="icon-box bg-green"><i class="fas fa-users"></i></div>
+                    <h5 class="font-weight-bold text-muted small">COMMUNITY</h5>
+                    <h3 class="font-weight-bold">Users</h3>
+                    <a href="/admin/customers" class="card-link-btn">View Records</a>
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card">
-                    <div class="icon-box bg-blue shadow-lg">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h5 class="font-weight-bold text-muted mb-1 text-uppercase small" style="letter-spacing: 1px;">Fulfillment</h5>
-                    <h3 class="font-weight-bold">Active Orders</h3>
-                    <p class="small text-secondary mb-4">Track deliveries.</p>
-                    <a href="/admin/orders" class="card-link-btn text-center" style="background: var(--dark-bg); color: white;">Manage Orders</a>
+                    <div class="icon-box bg-blue"><i class="fas fa-truck"></i></div>
+                    <h5 class="font-weight-bold text-muted small">FULFILLMENT</h5>
+                    <h3 class="font-weight-bold">Orders</h3>
+                    <a href="/admin/orders" class="card-link-btn" style="background: var(--dark-bg); color: white;">Manage Orders</a>
                 </div>
             </div>
         </div>
 
-        <div class="action-bar d-flex justify-content-between align-items-center mb-5">
-            <div>
-                <h6 class="text-uppercase font-weight-bold text-muted small mb-1" style="letter-spacing: 1px;">System Performance</h6>
-                <div class="d-flex align-items-center">
-                    <h4 class="mb-0 font-weight-bold">Revenue: <span class="text-success">&#8377;1,24,500</span></h4>
-                    <span class="growth-badge"><i class="fas fa-arrow-up mr-1"></i> 12%</span>
+        <div class="seeder-box">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="text-danger font-weight-bold mb-1">
+                        <i class="fas fa-database mr-2"></i>Database Initialization
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        Automatically populate 150 products across Mobiles, Fruits, Groceries, Spices, and Snacks.
+                    </p>
                 </div>
-                <p class="text-muted small mb-0 mt-1">Calculated for current billing cycle (March 2026)</p>
+                <div class="col-md-4 text-md-right mt-3 mt-md-0">
+                    <button type="button" class="btn btn-danger rounded-pill px-4 font-weight-bold shadow-sm" data-toggle="modal" data-target="#seedModal">
+                        Seed Initial Data
+                    </button>
+                </div>
             </div>
-            <div class="d-flex">
-                <button class="btn btn-light rounded-pill mr-2 font-weight-bold"><i class="fas fa-file-export mr-2 text-primary"></i>Export Report</button>
-                <a href="/" class="btn btn-primary rounded-pill px-4 shadow font-weight-bold">Visit Shop <i class="fas fa-external-link-alt ml-2"></i></a>
+        </div>
+    </div>
+
+    <div class="modal fade" id="seedModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg">
+                <div class="modal-body text-center p-5">
+                    <div class="text-danger mb-4"><i class="fas fa-exclamation-circle fa-4x"></i></div>
+                    <h3 class="font-weight-bold">Seed 150 Products?</h3>
+                    <p class="text-secondary">This action will populate the catalog. Please ensure you haven't seeded already to avoid duplicates.</p>
+                    
+                    <div class="alert alert-warning small text-left py-2">
+                        Requires Category IDs 1, 2, 3, 4, 5 to exist.
+                    </div>
+
+                    <div class="d-flex flex-column mt-4">
+                        <a href="/admin/system/seed-data" class="btn btn-danger btn-lg rounded-pill font-weight-bold mb-2 shadow">
+                            Confirm and Seed
+                        </a>
+                        <button type="button" class="btn btn-link text-muted" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <footer class="text-center py-5 text-muted small">
-        &copy; 2026 Mazi Mandai | Admin Portal v4.0 | Developed for Dharashiv Diaries
+        &copy; 2026 Mazi Mandai | Developed for Dharashiv Diaries
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
